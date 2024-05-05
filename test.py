@@ -2,6 +2,7 @@
 import math 
 import sys
 import itertools
+import bisect
 from itertools import permutations
 from itertools import combinations
 from itertools import combinations_with_replacement
@@ -16,18 +17,11 @@ if __name__ == '__main__':
     L.sort()
     # print(L)
     ans=0
+    cnt=0
+    triangle=[]
     for a in range(N-2):
-        cnt=0
-        triangle=[]
         for b in range(a+1,N-1):
-            for c in range(b+1,N):
-                l=[L[a],L[b],L[c]]
-                l.sort()
-                print(l)
-                if l[2] < l[0]+l[1]:
-                    cnt+=1
-                    triangle.append(l)
-        print(triangle)
-        ans=max(ans,cnt)
+            bisect
+    ans=max(ans,cnt)
 
     print(ans)
