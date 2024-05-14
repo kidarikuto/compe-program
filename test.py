@@ -8,24 +8,17 @@ from itertools import combinations
 from itertools import combinations_with_replacement
 
 if __name__ == '__main__':
-    N=input()
-    n=[int(c) for c in N]
-    # print(n)
-    digi=len(N)
-    ans=float("inf")
-    for i in range(1,1<<digi):
-        sum=0
-        cnt=0
-        for j in range(digi):
-            if i & (1<<j):
-                sum+=n[j]
-                cnt+=1
-        if sum%3==0:
-            del_num=digi-cnt
-            # print(del_num,sum,i)
-            ans=min(ans,del_num)
-    if ans==float("inf"):
-        print(-1)
-    else:
-        print(ans)
-
+    N=int(input()) 
+    A=list(map(int,input().split()))   
+    ans=0
+    start=0
+    max_move=0
+    move=0
+    for i in range(N):
+        move+=A[i]
+        max_move=max(move,max_move)
+        ans=max(ans,start+max_move)
+        # print("max_move",max_move,"start",start,"ans",ans)
+        start+=move
+    print(ans)
+        
