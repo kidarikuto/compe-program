@@ -10,25 +10,34 @@ from collections import deque
 
 
 if __name__ == '__main__':
-    N,K=map(int,input().split())
-    allocation=list(list(map(int,input().split())) for _ in range(N))
-    # print(allocation)
-    allocation.sort(key=lambda x: x[1],reverse=True)
-    # print(allocation)
-    second=[]
-    for i in range(N):
-        allocation[i][0] = allocation[i][0]-allocation[i][1]
-        second.append(allocation[i][0])
-        second.append(allocation[i][1])
-    # print(second)
-    second.sort(reverse=True)
-    # print(second)
-
+    N,K,P=map(int,input().split())
+    A=list(map(int,input().split()))
+    # print(A)
+    al=A[:N//2]
+    ar=A[N//2:]
+    # print(al,ar)
+    # combl=combinations(al,K//2)
+    # combr=combinations(ar,K//2)
     ans=0
-    for i in second:
-        ans+=i
-        K-=1
-        if K<=0:
-            break
-    
+    ansl=[]
+    ansr=[]
+    for i in range(K+1):
+        combl=combinations(al,i)
+        combr=combinations(ar,i)
+        tmp=[]
+        for c in combl:
+            tmp.append(sum(c))
+        ansl.append(tmp)
+        tmp=[]
+        for c in combr:
+            tmp.append(sum(c))
+        ansr.append(tmp)
+    print(ansl)
+    print(ansr)
+
+    for i in range(K+1):
+        for l in ansl[i]:
+            for r in ansr[-1*(i+1)]:
+                if l+r<=P:
+                    ans+=1
     print(ans)
