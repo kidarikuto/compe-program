@@ -6,12 +6,8 @@ import bisect
 from itertools import permutations
 from itertools import combinations
 from itertools import combinations_with_replacement
-from collections import deque
-
+from collections import Counter
 
 if __name__ == '__main__':
-    S=input()
-    S=list(S)
-    S.sort()
-    print(S)
-
+    L,R=map(int,input().split())
+    
