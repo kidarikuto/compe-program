@@ -11,21 +11,14 @@ from collections import deque
 
 
 if __name__ == '__main__':
-    N=int(input())
-    a=list(list(map(int,input().split()))for i in range(N))
-    ans=[]
-    sort=sorted(a,key=lambda x:x[0],reverse=True)
-    index_map={element[0]: idx for idx, element in enumerate(a)}
-    # print(a)
-    # print(sort)
-    # print(index_map)
-    minc=sort[0]
-    ans.append(index_map[sort[0][0]]+1)
-    for i in range(N):
-        if minc[1]>sort[i][1]:
-            ans.append(index_map[sort[i][0]]+1)
-            minc=sort[i]
-            # print(ans)
-    ans.sort()
-    print(len(ans))
-    print(*ans)
+    n=int(input())
+    ans=0
+    for i in range(1,n+1):
+        if i%2==1:
+            cnt=0
+            for j in range(1,i+1):
+                if i%j==0:
+                    cnt+=1
+            if cnt==8:
+                ans+=1
+    print(ans)
