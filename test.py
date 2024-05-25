@@ -20,50 +20,59 @@ def dfs_template(graph, start, visited=None):
         if neighbor not in visited:
             dfs_template(graph, neighbor, visited)
  
-def glid_dfs(h, w):
-        visited[h][w] = "o"
-        # 四方向を探索
-        for dir in range(4):
-            nh = h + dy[dir]
-            nw = w + dx[dir]
-            # 場外アウトしたり、移動先が壁の場合はスルー
-            if nh < 0 or nh >= 10 or nw < 0 or nw >= 10:continue
-            if graph[nh][nw] == 'x':continue
-            # 移動先が探索済みの場合
-            if visited[nh][nw]=="o":continue
-            # 再帰的に探索
-            # if visited[nh][nw]==".":
-            glid_dfs(nh,nw)
+def find_list(graph,element):
+    ans=[]
+    for i in range(len(graph)):
+        if element in graph[i]:
+            ans.append(graph[i])
+    return ans
 
+def abc126_b_dfs(a):
+    dx=[1,0,-1,0]
+    dy=[0,1,0,-1]
+    const_a=find_list(graph,a)#[a,aa,edge]
+
+    for const in const_a:
+        a_index=const.index(a)
+        aa=const[abs(a_index-1)]
+        na=a-1
+        naa=aa-1
+        if const[2]%2==0:
+            visited[naa]=visited[na]
+        else:
+            visited[naa]=abs(visited[na]-1)
+        #visitedに書き込んだ制約を削除したい
+        graph.remove(const)
+        # print(a,aa)
+        # print(visited)
+        abc126_b_dfs(aa)
 
 
 if __name__ == '__main__':
-    # 入力受け取り
-    dx=[1,0,-1,0]
-    dy=[0,1,0,-1]
-    graph=list(list(input()) for _ in range(10))
+    N=int(input())
+    graph=list(list(map(int,input().split())) for i in range(N-1))#編の制約０：ノード1つ目　１：ノード2つ目　２：辺の距離
+    # print(graph)
+    visited=[-1 for i in range(N)]#１：黒　０：白　ー１：未塗
+    flag=1
     
-    flag=0
-    
-    for i in range(10):
-        for j in range(10):
-            if graph[i][j]=="x":        
-                graph[i][j]="o"
-                visited=[["x" for i in range(10)] for j in range(10)]
-                glid_dfs(i,j)
-                # print(i,j)
-                # for a in range(10):
-                    # print(graph[i])
-                    # print(visited[a])
-                if visited==graph:
-                    flag=1
-                graph[i][j]="x"
-                
-    if flag==1:
-        print("YES")
+    constraints=graph.pop()
+    a=constraints[0]
+    na=a-1
+    b=constraints[1]
+    nb=b-1
+    edge=constraints[2]
+
+    visited[na]=0
+    if edge%2==0:
+         visited[nb]=0
     else:
-        print("NO")
-                       
-              
-    # print(map)
-    
+         visited[nb]=1
+    # print(a,b,edge)
+    # print(find_list(graph,a))
+    # print(find_list(graph,b))
+    # print(visited)
+    abc126_b_dfs(a)
+    abc126_b_dfs(b)
+
+    for a in visited:
+        print(a)
