@@ -49,15 +49,30 @@ def abc126_b_dfs(a):
 
 
 if __name__ == '__main__':
-    N,K=map(int,input().split())
-    A=list(map(int,input().split()))
-    ans=0
-    emp=K
-    for i in range(N):
-        if emp>=A[i]:
-            emp-=A[i]
-        else:
-            ans+=1
-            emp=K-A[i]
-        # print(ans,emp)
-    print(ans+1)
+    N=int(input())
+    graph=list(list(map(int,input().split())) for i in range(N-1))#編の制約０：ノード1つ目　１：ノード2つ目　２：辺の距離
+    # print(graph)
+    visited=[-1 for i in range(N)]#１：黒　０：白　ー１：未塗
+    flag=1
+    
+    constraints=graph.pop()
+    a=constraints[0]
+    na=a-1
+    b=constraints[1]
+    nb=b-1
+    edge=constraints[2]
+
+    visited[na]=0
+    if edge%2==0:
+         visited[nb]=0
+    else:
+         visited[nb]=1
+    # print(a,b,edge)
+    # print(find_list(graph,a))
+    # print(find_list(graph,b))
+    # print(visited)
+    abc126_b_dfs(a)
+    abc126_b_dfs(b)
+
+    for a in visited:
+        print(a)
