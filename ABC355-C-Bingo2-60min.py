@@ -49,13 +49,27 @@ def abc126_b_dfs(a):
 
 
 if __name__ == '__main__':
-    N=int(input())
-    V=list(map(int,input().split()))
-    # print(V)
-    V.sort()
-    # print(V)
-    ans=V[0]
-    for i in range(1,N):
-        ans+=V[i]
-        ans/=2
-    print(ans)
+    N,T=map(int,input().split())
+    A=list(map(int,input().split()))
+    # print(A)
+    flag=0
+    cnt=[[0 for i in range(N)],[0 for j in range(N)],0,0]#縦、横、斜め左から、斜め
+    for i in range(T):
+        # print(A[i])
+        x=(A[i]-1)%N
+        cnt[0][x]+=1
+        y=int((A[i]-1)//N)
+        # print("y",y)
+        cnt[1][y]+=1
+        if x==y:
+            cnt[2]+=1
+        if x+y==(N-1):
+            cnt[3]+=1
+        if (N in cnt[0]) or (N in cnt[1]) or (N==cnt[2]) or (N==cnt[3]):
+            print(i+1)
+            flag=1
+            break
+        # print(cnt)
+
+    if flag==0:
+        print(-1)
