@@ -21,21 +21,27 @@ def dfs_template(graph, start, visited=None):
             dfs_template(graph, neighbor, visited)
 
 if __name__ == '__main__':
-    N,D=map(int,input().split())
-    human=list(list(map(int,input().split())) for i in range(N))
-    # print(human)
-    j=["No" for i in range(N)]
-    j[0]="Yes"
-    # human.pop(0)
-    stack=[0]#新しく感染したときhumanから取り除いてstackに入れる
-    while len(stack)>0:
-        virus=stack.pop()
-        for i in range(N):
-            x=(human[virus][0]-human[i][0])**2
-            y=(human[virus][1]-human[i][1])**2
-            if x+y<=D**2 and j[i]=="No":
-                stack.append(i)
-                j[i]="Yes"
-                # print(i,j)
-    for i in range(N):
-        print(j[i])
+    S=input()
+    n=len(S)
+    sorted_string=list(S)
+    sorted_string.sort()
+    # print(sorted_string)
+    ans=0
+    seen={}
+    set_string=set(sorted_string)
+    for i in range(n):
+        if S[i] in seen:
+            seen[S[i]]+=1
+        else:
+            seen[S[i]]=1
+    # print(set_string)
+    cnt=[]
+    for i in (set_string):
+        # print(set_string[i])
+        cnt.append(seen[i]**2)
+    # print(cnt)
+    sum=sum(cnt)
+    print((n**2 - sum)//2)
+
+
+
