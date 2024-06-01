@@ -21,21 +21,20 @@ def dfs_template(graph, start, visited=None):
             dfs_template(graph, neighbor, visited)
 
 if __name__ == '__main__':
-    x,k,d=map(int,input().split())
-    if abs(x)<=d:
-        if k%2==0:
-            print(abs(x))
-        elif k%2==1:
-            print(d-abs(x))
-    elif d<abs(x) and abs(x)<=d*k:
-        r=abs(x)//d
-        k-=r
-        if k%2==0:
-            print(abs(x)-d*r)
-        elif k%2==1:
-            print((r+1)*d-abs(x))
-    elif d*k<abs(x):
-        print(abs(x)-d*k)
-        
+    s=input()
+    t="chokudai"
+    stack=[[0 for i in range(8)] for j in range(len(s))]
+    for i in range(len(s)):
+        for j in range(8):
+            # print(s[i],t[j])
+            if i==0 and s[i]==t[0]:
+                stack[i][0]=1
+            elif i>0 and j==0 and s[i]==t[j]:
+                stack[i][j]=stack[i-1][j]+1
+            elif i>0 and j>0 and s[i]==t[j]:
+                stack[i][j]=stack[i][j-1]+stack[i-1][j]
+            else:
+                stack[i][j]=stack[i-1][j]
 
-
+        # print(stack[i])
+    print(stack[len(s)-1][7]%(10**9+7))
