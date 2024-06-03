@@ -22,31 +22,35 @@ def dfs_template(graph, start, visited=None):
             dfs_template(graph, neighbor, visited)
 
 if __name__ == '__main__':
-    n,m=map(int,input().split())
-    mod=998244353
-    sum=0
-    m_binary=bin(m)[2:]
-    m_one_count=m_binary.count("1")
-    # print("m_one_count",m_one_count)
-    if n==0 or m==0 or n<m:
-        print(sum%mod)
-        exit()
-    sum=m_one_count*2**(int(math.log(n,2))-1)
-    # print("sum",sum)
-    if m==0:
-        print(sum%mod)
-        exit()
-    start=2**(int(math.log(m,2))+1)+1
-    # print("start",start)
+    n=int(input())
+    s=input()
+    ans=list(s)
+    q=int(input())
+    dic={}
+    for i in range(n):
+        if s[i] not in dic:
+            dic[s[i]]=[i]
+        else:
+            dic[s[i]].append(i)
+    # print(dic)
+    for i in range(q):
+        c,d=input().split()
+        if c in dic and d in dic:
+            if c==d:
+                continue
+            while len(dic[c])>0:
+                t=dic[c].pop()
+                ans[t]=d
+                dic[d].append(t)
+        elif c in dic and d not in dic:
+            t=dic[c].pop()
+            dic[d]=[t]
+            ans[t]=d
+            while len(dic[c])>0:
+                t=dic[c].pop()
+                dic[d].append(t)
+                ans[t]=d
+        else:
+            continue
+    print("".join(ans))
 
-
-    for i in range(start,n+1):
-        binary=bin(i&m)[2:]
-        # print(binary)
-        one_count=binary.count("1")
-        # print("one_count",one_count)
-        sum+=one_count
-    # ans=0
-    print(sum%mod)
- 
-        
