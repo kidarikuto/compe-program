@@ -8,7 +8,8 @@ from itertools import combinations
 from itertools import combinations_with_replacement
 from collections import Counter
 from collections import deque
-import numpy as np
+# import numpy as np
+import queue
 
 def dfs_template(graph, start, visited=None):
     if visited is None:
@@ -23,34 +24,30 @@ def dfs_template(graph, start, visited=None):
 
 ##ABC342-C-TLE
 if __name__ == '__main__':
-    k=int(input())
-    if k==0:
-        print("#")
-    elif k==1:
-        print("###")
-        print("#.#")
-        print("###")
-    else:
-        ans=[["#" for i in range(3**k)] for j in range(3**k)]
-        three=[3**i for i in range(k)]
-        
-        for i in range(3**k):
-            for j in range(3**k):
-                # if i%3**k>=3**(k-1) or j%3**k>=3**(k-1) or i%3**k<2*3**(k-1)-1 or j%3**k<2*3**(k-1)-1:
-                #     ans[i][j]="."
-                if i%3==1 and j%3==1:
-                    ans[i][j]="."
-                elif (i%3**2>=3**1 and i%3**2<2*(3**1)) and (j%3**2>=3**1 and j%3**2<2*(3**1)):
-                    ans[i][j]="."
-                elif (i%3**3>=3**2 and i%3**3<2*(3**2)) and (j%3**3>=3**2 and j%3**3<2*(3**2)):
-                    ans[i][j]="."
-                elif (i%3**4>=3**3 and i%3**4<2*(3**3)) and (j%3**4>=3**3 and j%3**4<2*(3**3)):
-                    ans[i][j]="."
-                elif (i%3**5>=3**4 and i%3**5<2*(3**4)) and (j%3**5>=3**4 and j%3**5<2*(3**4)):
-                    ans[i][j]="."
-                elif (i%3**6>=3**5 and i%3**6<2*(3**5)) and (j%3**6>=3**5 and j%3**6<2*(3**5)):
-                    ans[i][j]="."
-
-            print("".join(ans[i]))            
-
-
+    n=int(input())
+    w=list(map(int,input().split()))
+    # dp=[[0 for i in range(n)] for j in range(n)] 
+    def solve(l,r):
+        if r-l<=0:
+            return 0
+        if r-l==1 and abs(w[r]-w[l])<=1:
+            # dp[l][r]=2
+            # print(l,r,dp[l][r])
+            return 2
+        elif r-l==1 and abs(w[r]-w[l])>1:
+            # dp[l][r]=0
+            # print(l,r,dp[l][r])
+            return 0
+        elif r-l>=2 and abs(w[r]-w[l])<=1 and solve(l+1,r-1)==r-l-1:
+            # dp[l][r]=r-(l-1)
+            # print(l,r,dp[l][r])
+            return r-(l-1)
+        else:
+            ret=0
+            for i in range(l,r):
+                ret=max(ret,solve(l,i)+solve(i+1,r))
+            # dp[l][r]=ret
+            # print(l,r,dp[l][r])
+            return ret
+    print(solve(0,n-1)) 
+    # print(dp)
